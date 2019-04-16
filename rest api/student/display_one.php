@@ -6,27 +6,21 @@
 include_once '../../db/db.php';
   include_once '../../Student.php';
 
+  $db2 = new Database();
+  $db = $db2->connect();
 
-  //Instantiate DB & connect
-  $database = new Database();
-  $db = $database->connect();
-
-  // Instantiate people object
   $Student = new Student($db);
 
-  // Get ID
   $Student->id = isset($_GET['id']) ? $_GET['id'] : die();
 
-  // Get people
-  $Student->read_single();
+  $Student->display_one();
 
-  // create array
-  $peo_arr = array(
+  $stu_arr = array(
     'id' => $Student->id,
     'name' => $Student->name,
     'branch' => $Student->branch,
     'section' => $Student->section,
   );
 
-  // Make Json
-  print_r(json_encode($peo_arr));
+  print_r(json_encode($stu_arr));
+  ?>

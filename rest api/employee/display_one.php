@@ -8,25 +8,20 @@ include_once '../../db/db.php';
   include_once '../../Employee.php';
 
 
-  //Instantiate DB & connect
-  $database = new Database();
-  $db = $database->connect();
+  $db2 = new Database();
+  $db = $db2->connect();
 
-  // Instantiate blog post object
   $employee = new Employee($db);
 
-  // Get ID
   $employee->id = isset($_GET['id']) ? $_GET['id'] : die();
 
-  // Get category
-  $employee->read_single();
+  $employee->display_one();
 
-  // create array
-  $cat_arr = array(
+  $emp_arr = array(
     'id' => $employee->id,
     'name' => $employee->name,
     'city' => $employee->city
   );
 
-  // Make Json
-  print_r(json_encode($cat_arr));
+  print_r(json_encode($emp_arr));
+  ?>
