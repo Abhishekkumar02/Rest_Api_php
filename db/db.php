@@ -1,6 +1,6 @@
 <?php
   class Database {
-  	//DB params
+  
   	private $host = 'localhost';
   	private $db_name = 'api';
   	private $username = 'root';
@@ -8,7 +8,7 @@
   	private $conn;
 
 
-  	//DB connect
+  	
   	public function connect() {
   		$this->conn = null;
 

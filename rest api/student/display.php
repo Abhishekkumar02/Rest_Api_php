@@ -26,7 +26,8 @@ include_once '../../db/db.php';
       $stu_item = array(
         'id' => $id,
         'name' => $name,
-        'branch' => $branch,
+        'branch_id' => $branch_id,
+        'branch_name' => $branch_name,
         'section' => $section
       );
 

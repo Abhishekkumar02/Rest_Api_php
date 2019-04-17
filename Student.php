@@ -6,7 +6,7 @@
 
     public $id;
     public $name;
-    public $branch;
+    public $branch_id;
      public $section;
         public function __construct($db) {
       $this->conn = $db;
@@ -15,12 +15,16 @@
         public function display() {
     
       $query = 'SELECT
-        id, name, branch,
-        section
+      b.branch_name as branch_name,
+        s.id, s.name, s.branch_id,
+        s.section
       FROM
         ' . $this->table  . '
-      ORDER BY
-        id DESC';
+       s
+          LEFT JOIN
+            branch b ON s.branch_id = b.id
+          ORDER BY
+            s.id DESC';
     
       $stmt = $this->conn->prepare($query);
     
@@ -32,13 +36,15 @@
     public function display_one() {
    
       $query = 'SELECT
-            id,
-            name,
-              branch,
-        section
+      b.branch_name as branch_name,
+            s.id, s.name, s.branch_id,
+        s.section
           FROM
             ' . $this->table . '
-        WHERE id = ?
+            s
+          LEFT JOIN
+            branch b ON s.branch_id = b.id
+        WHERE s.id = ?
         LIMIT 0,1';
    
         $stmt = $this->conn->prepare($query);
@@ -50,18 +56,18 @@
       
         $this->id = $row['id'];
         $this->name = $row['name'];
-        $this->branch = $row['branch'];
+        $this->branch_id = $row['branch_id'];
+         $this->branch_name = $row['branch_name'];
         $this->section = $row['section'];
 
     }
   
     public function create() {
-      // create query
       $query = 'INSERT INTO ' .
         $this->table . '
       SET 
         name = :name,
-branch = :branch,
+branch_id = :branch_id,
 section = :section
 
         ';
@@ -71,9 +77,9 @@ section = :section
     $this->name = htmlspecialchars(strip_tags($this->name));
    
     $stmt-> bindParam(':name', $this->name);
-    $stmt-> bindParam(':branch', $this->branch);
+    $stmt-> bindParam(':branch_id', $this->branch_id);
     $stmt-> bindParam(':section', $this->section);
-    // execute query
+
     if ($stmt->execute()) {
       return true;
            
@@ -84,12 +90,12 @@ section = :section
     }
     
     public function update() {
-      // create query
+  
       $query = 'UPDATE ' .
         $this->table . '
       SET
         name = :name,
-        branch = :branch,
+        branch_id = :branch_id,
         section = :section
 
         WHERE
@@ -98,7 +104,7 @@ section = :section
     $stmt = $this->conn->prepare($query);
    
     $this->name = htmlspecialchars(strip_tags($this->name));
-     $this->branch = htmlspecialchars(strip_tags($this->branch));
+     $this->branch_id = htmlspecialchars(strip_tags($this->branch_id));
       $this->section = htmlspecialchars(strip_tags($this->section));
     
 
@@ -106,7 +112,7 @@ section = :section
    
     $stmt->bindParam(':name', $this->name);
     
-    $stmt->bindParam(':branch', $this->branch);
+    $stmt->bindParam(':branch_id', $this->branch_id);
     $stmt->bindParam(':section', $this->section);
     $stmt->bindParam(':id', $this->id);
    

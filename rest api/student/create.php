@@ -14,7 +14,7 @@ include_once '../../db/db.php';
 
   $data = json_decode(file_get_contents('php://input'));
   $student->name = $data->name;
-   $student->branch = $data->branch;
+   $student->branch_id = $data->branch_id;
     $student->section = $data->section;
     if ($student->create()) {
     echo json_encode(

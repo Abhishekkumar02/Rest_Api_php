@@ -18,8 +18,9 @@ include_once '../../db/db.php';
   $stu_arr = array(
     'id' => $Student->id,
     'name' => $Student->name,
-    'branch' => $Student->branch,
-    'section' => $Student->section,
+    'branch_id' => $Student->branch_id,
+    'branch_name' => $Student->branch_name,
+    'section' => $Student->section
   );
 
   print_r(json_encode($stu_arr));
